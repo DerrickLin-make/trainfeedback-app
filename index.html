@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>训练反馈生成器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 顶部导航（仿 ChatGPT 风格） -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="brand">
+                <span class="logo" aria-hidden="true">◎</span>
+                <span class="brand-text">TrainGPT</span>
+            </div>
+        </div>
+        <ul class="nav-right">
+            <li><a href="#" aria-label="关于">关于</a></li>
+            <li><a href="#" aria-label="功能">功能</a></li>
+            <li><a href="#" aria-label="学习">学习</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header class="header hero">
+            <p class="eyebrow">训练反馈生成器</p>
+            <h1 class="title hero-title">TrainFeedback</h1>
+            <p class="subtitle">根据您填写的信息，立即生成结构化、可读性强的训练反馈。</p>
+        </header>
+
+        <main class="main-content">
+            <div class="form-section card">
+                <form id="feedbackForm" class="feedback-form">
+                    <div class="form-group">
+                        <label for="date">日期</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+
+                    <!-- 完成情况：多动作多组输入 -->
+                    <div class="form-group">
+                        <label>完成情况（可添加多条动作记录）</label>
+                        <div id="setsContainer" class="sets-container"><!-- JS 动态插入每一行 --></div>
+                        <button type="button" class="add-row-btn" id="addRowBtn">+ 添加动作</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rpe">RPE (自觉运动强度)</label>
+                        <select id="rpe" name="rpe" required>
+                            <option value="">请选择RPE等级</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row grid-2">
+                        <div class="form-group">
+                            <label for="energy">能量水平</label>
+                            <select id="energy" name="energy" required>
+                                <option value="">请选择能量水平</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sleep">睡眠质量</label>
+                            <select id="sleep" name="sleep" required>
+                                <option value="">请选择睡眠质量</option>
+                                <option value="好">好</option>
+                                <option value="一般">一般</option>
+                                <option value="差">差</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 新增：睡眠时长（数字输入） -->
+                    <div class="form-group">
+                        <label for="sleep-duration">睡眠时长（单位：小时）</label>
+                        <input type="number" id="sleep-duration" name="sleep-duration" inputmode="decimal" step="0.1" min="0" placeholder="请输入睡眠时长（数字）">
+                    </div>
+
+                    <!-- 肌肉酸痛改为自由文本输入，原样保存用户内容 -->
+                    <div class="form-group">
+                        <label for="muscle-soreness">肌肉酸痛</label>
+                        <select id="muscle-soreness" name="muscle-soreness" required>
+                            <option value="">请选择酸痛程度</option>
+                            <option value="无">无</option>
+                            <option value="轻微">轻微</option>
+                            <option value="中度">中度</option>
+                            <option value="严重">严重</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="other-factors">其他因素</label>
+                        <textarea id="other-factors" name="other-factors" placeholder="请输入其他影响训练的因素，如压力、营养、动作形式问题、训练感受等" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="generate-btn">
+                        <span class="btn-text">生成反馈</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="result-section card" id="resultSection" style="display: none;">
+                <div class="result-header">
+                    <h2>生成的训练反馈</h2>
+                    <button class="copy-btn" id="copyBtn">复制</button>
+                </div>
+                <div class="result-content" id="resultContent"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
